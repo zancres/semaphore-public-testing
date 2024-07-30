@@ -1,6 +1,6 @@
 ---
-- name: Ping Test Playbook
-  hosts: webserver
+- name: Ping Rocky Linux Playbook
+  hosts: rockyservers
   tasks:
     - name: Ping the hosts
       ansible.builtin.ping:
