@@ -1,5 +1,6 @@
 ---
 - hosts: webservers
+  become: yes
   tasks:
   - name: Instalando Nginx
     apt:

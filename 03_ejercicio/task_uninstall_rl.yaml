@@ -1,6 +1,7 @@
 ---
 - name: Instalación de Nginx
   hosts: rockyservers
+  become: yes
   #remote_user: root
   tasks:
     - name: Servicio Nginx apagado 

@@ -1,6 +1,7 @@
 ---
 - name: Instalacion de Nginx
   hosts: webservers
+  become: yes
   tasks:
     - name: Instalando Paquete de Nginx
       package:

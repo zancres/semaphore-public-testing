@@ -1,6 +1,7 @@
 ---
 - name: Instalacion de Nginx
   hosts: webservers
+  become: yes
   tasks:
     - name: Servicio Nginx Apagado
       service: #'name=nginx state=started enabled=true'
