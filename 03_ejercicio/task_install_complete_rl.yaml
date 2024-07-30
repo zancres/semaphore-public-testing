@@ -2,9 +2,6 @@
 - name: Instalación de Nginx
   hosts: rockyservers
   become: True
-  become_method: sudo
-  become_user: root
-
   #remote_user: root
   tasks:
     - name: Instalando el paquete nginx
