@@ -1,0 +1,14 @@
+---
+- name: Instalacion de Nginx
+  hosts: webservers
+  tasks:
+    - name: Servicio Nginx Apagado
+      service: #'name=nginx state=started enabled=true'
+        name: nginx
+        state: stopped
+        enabled: true
+    - name: Desinstalando Paquete de Nginx
+      package:
+        name: nginx
+        state: absent
+...

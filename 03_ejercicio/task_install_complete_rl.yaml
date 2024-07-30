@@ -1,0 +1,72 @@
+---
+- name: Instalación de Nginx
+  hosts: rockyservers
+  #remote_user: root
+  tasks:
+    - name: Instalando el paquete nginx
+      package:
+        name: nginx
+        state: latest
+        update_cache: yes
+    - name: Servicio Nginx arrancado
+      service: #"name=nginx state=started enabled=true"
+        name: nginx
+        state: started
+        enabled: true
+    #- name: Instalando elinks
+    #  package:
+    #    name: elinks
+    #    state: latest
+    - name: Install Python and pip
+      yum:
+        name: "{{ item }}"
+        state: present
+      become: true
+      loop:
+        - python3
+        - python3-pip
+    - name: Install python package
+      ansible.builtin.pip:
+        name: firewall
+    - name: Install python firewall package
+      ansible.builtin.package:
+        name: python3-firewall
+        state: latest
+    - name: Install firewalld package
+      ansible.builtin.package:
+        name: firewalld
+        state: latest
+    - name: Install firewalld package
+      service:
+        name: firewalld
+        state: started
+        enabled: true
+    - name: permit traffic in default zone for https service
+      ansible.posix.firewalld:
+        service: ssh
+        zone: public
+        permanent: true
+        immediate: true
+        state: enabled
+    - name: permit traffic in default zone for http service
+      ansible.posix.firewalld:
+        service: http
+        zone: public
+        permanent: true
+        immediate: true
+        state: enabled
+    - name: permit traffic in default zone for https service
+      ansible.posix.firewalld:
+        service: https
+        zone: public
+        immediate: true
+        permanent: true
+        state: enabled
+    - name: Copia el fichero index.html
+      copy:
+        src: index.html
+        dest: /usr/share/nginx/html/index.html
+        owner: root
+        group: root
+        mode: '0644'
+...
