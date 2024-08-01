@@ -1,6 +1,6 @@
 ---
 - name: Ping Test Playbook
-  hosts: webservers
+  hosts: all
   tasks:
     - name: Ping the hosts
       ansible.builtin.ping:
