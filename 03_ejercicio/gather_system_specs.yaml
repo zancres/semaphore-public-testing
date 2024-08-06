@@ -1,0 +1,36 @@
+---
+- name: Gather System Software Specifications
+  hosts: all
+  gather_facts: yes
+  tasks:
+    - name: Gather OS information
+      shell: uname -a
+      register: os_info
+
+    - name: Gather installed packages for Debian-based systems
+      when: ansible_os_family == 'Debian'
+      shell: dpkg -l
+      register: installed_packages
+
+    - name: Gather installed packages for RedHat-based systems
+      when: ansible_os_family == 'RedHat'
+      shell: rpm -qa
+      register: installed_packages
+
+    - name: Gather additional system information
+      shell: lsb_release -a
+      register: lsb_info
+      ignore_errors: yes
+
+    - name: Gather kernel version
+      shell: uname -r
+      register: kernel_version
+
+    - name: Create system specifications file
+      copy:
+        dest: /tmp/system_specs.txt
+        content: |
+          OS Information: {{ os_info.stdout if os_info.stdout is defined else 'N/A' }}
+          Installed Packages: {{ installed_packages.stdout if installed_packages.stdout is defined else 'N/A' }}
+          LSB Information: {{ lsb_info.stdout if lsb_info.stdout is defined else 'N/A' }}
+          Kernel Version: {{ kernel_version.stdout if kernel_version.stdout is defined else 'N/A' }}
