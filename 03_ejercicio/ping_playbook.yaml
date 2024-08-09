@@ -1,6 +1,8 @@
 ---
 - name: Ping Test Playbook
   hosts: all
+  vars:
+    ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
   tasks:
     - name: Ping the hosts
       ansible.builtin.ping:
